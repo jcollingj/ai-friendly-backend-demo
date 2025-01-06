@@ -1,6 +1,7 @@
 FROM oven/bun:1
 
-WORKDIR /app
+# Set environment variables
+ENV DIRECT_URL=${DIRECT_URL}
 
 # Copy package files
 COPY package.json .
@@ -16,7 +17,6 @@ RUN bun install
 # Generate Prisma client and run migrations
 RUN bunx prisma db pull
 RUN bunx prisma generate
-
 
 # Expose port 3000
 EXPOSE 3000
