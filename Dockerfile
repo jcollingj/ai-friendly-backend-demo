@@ -1,8 +1,8 @@
 FROM oven/bun:1
 
 # Set environment variables
-ENV DIRECT_URL=${DIRECT_URL}
-
+ARG DIRECT_URL
+ARG DATABASE_URL
 # Copy package files
 COPY package.json .
 COPY bun.lockb .
