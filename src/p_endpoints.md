@@ -9,12 +9,7 @@ import { Elysia, t } from "elysia";
 import { ListItemsByUserSchema, ItemCreateSchema, ItemSchema, ItemUpdateRequestSchema } from "../types/index";
 import { item_update, item_create, item_get_by_id, item_list_for_user_id, item_delete } from "../db/db";
 import { PrismaClient } from "@prisma/client";
-
-type AppContext = {
-   store: {
-       prisma: PrismaClient;
-   };
-};
+import { AppContext } from "../app_context";
 
 export const item_routes = new Elysia({ prefix: "/items" })
    .use((app) => app.decorate("store", { prisma: new PrismaClient() }))

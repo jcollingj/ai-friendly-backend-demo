@@ -1,5 +1,4 @@
 import { Static, Type as t } from "@sinclair/typebox";
-import type { workout_types } from "@prisma/client";
 
 // Schema for creating a new workout type. Only include fields that are required or optional for creation
 export const WorkoutTypeCreateSchema = t.Object({
@@ -30,6 +29,3 @@ export const WorkoutTypeSchema = t.Object({
 export type WorkoutTypeCreate = Static<typeof WorkoutTypeCreateSchema>;
 export type WorkoutTypeUpdate = Static<typeof WorkoutTypeUpdateSchema>;
 export type WorkoutType = Static<typeof WorkoutTypeSchema>;
-
-// Reexport the Prisma type
-export type { workout_types };
