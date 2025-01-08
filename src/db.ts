@@ -1,11 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { WorkoutTypeCreate, WorkoutTypeUpdate, WorkoutType } from "./types";
-import type { workout_types } from "@prisma/client";
 
-async function init_prisma() {
-    const prisma = new PrismaClient({});
-    return prisma;
-}
+export const prisma = new PrismaClient();
 
 export async function workout_type_create(prisma: PrismaClient, data: WorkoutTypeCreate): Promise<WorkoutType> {
     const newWorkoutType = await prisma.workout_types.create({

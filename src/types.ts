@@ -14,6 +14,12 @@ export const WorkoutTypeUpdateSchema = t.Object({
     deleted: t.Optional(t.Boolean()),
 });
 
+// Schema for the update request that includes both id and update data
+export const WorkoutTypeUpdateRequestSchema = t.Object({
+    id: t.Integer(),
+    update_data: WorkoutTypeUpdateSchema,
+});
+
 // Schema for the complete workout type. Include all fields that exist in the model
 export const WorkoutTypeSchema = t.Object({
     id: t.Integer(), // Change the id type to Integer to reflect BigInt
@@ -28,4 +34,5 @@ export const WorkoutTypeSchema = t.Object({
 // Infer the types and then export them. Type definitions based on the schemas
 export type WorkoutTypeCreate = Static<typeof WorkoutTypeCreateSchema>;
 export type WorkoutTypeUpdate = Static<typeof WorkoutTypeUpdateSchema>;
+export type WorkoutTypeUpdateRequest = Static<typeof WorkoutTypeUpdateRequestSchema>;
 export type WorkoutType = Static<typeof WorkoutTypeSchema>;

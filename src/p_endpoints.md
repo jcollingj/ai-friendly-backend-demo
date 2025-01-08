@@ -7,12 +7,12 @@ You should receive the types and db functions for that object. Use the typebox t
 ```typescript
 import { Elysia, t } from "elysia";
 import { ListItemsByUserSchema, ItemCreateSchema, ItemSchema, ItemUpdateRequestSchema } from "../types/index";
-import { item_update, item_create, item_get_by_id, item_list_for_user_id, item_delete } from "../db/db";
+import { item_update, item_create, item_get_by_id, item_list_for_user_id, item_delete, prisma } from "../db/db";
 import { PrismaClient } from "@prisma/client";
 import { AppContext } from "../app_context";
 
 export const item_routes = new Elysia({ prefix: "/items" })
-   .use((app) => app.decorate("store", { prisma: new PrismaClient() }))
+   .use((app) => app.decorate("store", { prisma }))
    .derive(({ store }): AppContext => ({ store }))
    .post(
        "/",

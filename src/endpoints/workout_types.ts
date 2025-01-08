@@ -1,17 +1,23 @@
 import { Elysia, t } from "elysia";
 import { PrismaClient } from "@prisma/client";
-import { WorkoutTypeSchema, WorkoutTypeCreateSchema, WorkoutTypeUpdateSchema } from "../types";
+import {
+    WorkoutTypeSchema,
+    WorkoutTypeCreateSchema,
+    WorkoutTypeUpdateSchema,
+    WorkoutTypeUpdateRequestSchema,
+} from "../types";
 import {
     workout_type_create,
     workout_type_get_by_id,
     workout_type_update,
     workout_type_delete,
     workout_type_list_for_user_id,
+    prisma,
 } from "../db";
 import { AppContext } from "../app_context";
 
 export const workout_type_routes = new Elysia({ prefix: "/workout-types" })
-    .use((app) => app.decorate("store", { prisma: new PrismaClient() }))
+    .use((app) => app.decorate("store", { prisma }))
     .derive(({ store }): AppContext => ({ store }))
     .post(
         "/",
@@ -99,8 +105,8 @@ export const workout_type_routes = new Elysia({ prefix: "/workout-types" })
         "/update",
         async ({ store: { prisma }, set, body }) => {
             try {
-                const { id, ...data } = body;
-                const updatedWorkoutType = await workout_type_update(prisma, id, data);
+                const { id, update_data } = body;
+                const updatedWorkoutType = await workout_type_update(prisma, id, update_data);
                 return { data: updatedWorkoutType };
             } catch (error) {
                 console.error("Error updating workout type:", error);
@@ -109,7 +115,8 @@ export const workout_type_routes = new Elysia({ prefix: "/workout-types" })
             }
         },
         {
-            body: t.Intersect([t.Object({ id: t.Integer() }), WorkoutTypeUpdateSchema]),
+            body: WorkoutTypeUpdateRequestSchema,
+
             response: {
                 200: t.Object({
                     data: WorkoutTypeSchema,

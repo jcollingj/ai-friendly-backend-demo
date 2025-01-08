@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import { PrismaClient } from "@prisma/client";
 import { AppContext } from "./app_context";
-import { workout_type_routes } from "./endpoints.ts/workout_types";
+import { workout_type_routes } from "./endpoints/workout_types";
 
 export const app = new Elysia()
 
