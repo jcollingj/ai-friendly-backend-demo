@@ -13,8 +13,8 @@ export const app = new Elysia()
     .use(workout_type_routes)
     .use(workout_routes)
 
-    .listen(3000, () => {
-        console.log(`🦊 Server is running at http://localhost:3000`);
+    .listen(8080, () => {
+        console.log(`🦊 Server is running at http://localhost:8080`);
 
-        console.log(`📚 Swagger documentation available at http://localhost:3000/swagger`);
+        console.log(`📚 Swagger documentation available at http://localhost:8080/swagger`);
     });
