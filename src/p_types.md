@@ -48,9 +48,3 @@ export type ItemUpdate = Static<typeof ItemUpdateSchema>;
 export type ItemUpdateRequest = Static<typeof ItemUpdateRequestSchema>;
 export type Item = Static<typeof ItemSchema>;
 ```
-
-
-## Additional Notes:
-There will likely be types like:
-`import type { item } from "@prisma/client";`
-Reexport those from the new type files as well.

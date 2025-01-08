@@ -3,6 +3,7 @@ import { swagger } from "@elysiajs/swagger";
 import { PrismaClient } from "@prisma/client";
 import { AppContext } from "./app_context";
 import { workout_type_routes } from "./endpoints/workout_types";
+import { workout_routes } from "./endpoints/workouts";
 
 export const app = new Elysia()
 
@@ -10,6 +11,7 @@ export const app = new Elysia()
     .derive(({ store }): AppContext => ({ store }))
     .use(swagger())
     .use(workout_type_routes)
+    .use(workout_routes)
 
     .listen(3000, () => {
         console.log(`🦊 Server is running at http://localhost:3000`);

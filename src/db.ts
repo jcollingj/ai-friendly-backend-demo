@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { WorkoutTypeCreate, WorkoutTypeUpdate, WorkoutType } from "./types";
+import { WorkoutTypeCreate, WorkoutTypeUpdate, WorkoutType, WorkoutCreate, WorkoutUpdate, Workout } from "./types";
 
 export const prisma = new PrismaClient();
 
@@ -98,5 +98,82 @@ export async function workout_type_list_for_user_id(prisma: PrismaClient, user_i
         name: workoutType.name,
         deleted: workoutType.deleted,
         user_id: workoutType.user_id,
+    }));
+}
+
+export async function workout_create(prisma: PrismaClient, data: WorkoutCreate): Promise<Workout> {
+    const newWorkout = await prisma.workout.create({
+        data: {
+            workout_date: new Date(data.workout_date),
+            workout_type_id: BigInt(data.workout_type_id),
+            user_id: data.user_id,
+            duration: BigInt(data.duration),
+        },
+    });
+
+    return {
+        id: Number(newWorkout.id),
+        created_at: newWorkout.created_at.toISOString(),
+        workout_date: newWorkout.workout_date.toISOString(),
+        workout_type_id: Number(newWorkout.workout_type_id),
+        user_id: newWorkout.user_id,
+        duration: Number(newWorkout.duration),
+    };
+}
+
+export async function workout_get_by_id(prisma: PrismaClient, id: number): Promise<Workout> {
+    const workout = await prisma.workout.findUniqueOrThrow({
+        where: { id: BigInt(id) },
+    });
+
+    return {
+        id: Number(workout.id),
+        created_at: workout.created_at.toISOString(),
+        workout_date: workout.workout_date.toISOString(),
+        workout_type_id: Number(workout.workout_type_id),
+        user_id: workout.user_id,
+        duration: Number(workout.duration),
+    };
+}
+
+export async function workout_update(prisma: PrismaClient, id: number, data: WorkoutUpdate): Promise<Workout> {
+    const updateData: any = {};
+    if (data.workout_date !== undefined) updateData.workout_date = new Date(data.workout_date);
+    if (data.workout_type_id !== undefined) updateData.workout_type_id = BigInt(data.workout_type_id);
+    if (data.duration !== undefined) updateData.duration = BigInt(data.duration);
+
+    const updatedWorkout = await prisma.workout.update({
+        where: { id: BigInt(id) },
+        data: updateData,
+    });
+
+    return {
+        id: Number(updatedWorkout.id),
+        created_at: updatedWorkout.created_at.toISOString(),
+        workout_date: updatedWorkout.workout_date.toISOString(),
+        workout_type_id: Number(updatedWorkout.workout_type_id),
+        user_id: updatedWorkout.user_id,
+        duration: Number(updatedWorkout.duration),
+    };
+}
+
+export async function workout_delete(prisma: PrismaClient, id: number): Promise<void> {
+    await prisma.workout.delete({
+        where: { id: BigInt(id) },
+    });
+}
+
+export async function workout_list_for_user_id(prisma: PrismaClient, user_id: string): Promise<Workout[]> {
+    const workouts = await prisma.workout.findMany({
+        where: { user_id },
+    });
+
+    return workouts.map((workout) => ({
+        id: Number(workout.id),
+        created_at: workout.created_at.toISOString(),
+        workout_date: workout.workout_date.toISOString(),
+        workout_type_id: Number(workout.workout_type_id),
+        user_id: workout.user_id,
+        duration: Number(workout.duration),
     }));
 }

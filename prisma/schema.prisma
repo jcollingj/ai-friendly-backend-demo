@@ -10,19 +10,33 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model workout_types {
-  id         BigInt   @id @default(autoincrement())
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  id         BigInt    @id @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime  @default(now()) @db.Timestamptz(6)
   type       String
   name       String
-  deleted    Boolean  @default(false)
+  deleted    Boolean   @default(false)
   user_id    String
-  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workout    workout[]
+  users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model users {
   id            String          @id
   created_at    DateTime        @default(now()) @db.Timestamptz(6)
+  workout       workout[]
   workout_types workout_types[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model workout {
+  id              BigInt        @id @default(autoincrement())
+  created_at      DateTime      @default(now()) @db.Timestamptz(6)
+  workout_date    DateTime      @db.Timestamptz(6)
+  workout_type_id BigInt
+  user_id         String
+  duration        BigInt
+  users           users         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "workout_user_fkey")
+  workout_types   workout_types @relation(fields: [workout_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "workout_workout_type_fkey")
 }
